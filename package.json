@@ -6,6 +6,9 @@
     "gcloud:deploy": "gcloud run deploy"
   },
   "dependencies": {
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
+    "marked": "^4.0.18",
     "next": "latest",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
