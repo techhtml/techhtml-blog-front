@@ -1,7 +1,13 @@
 import { API_HOST } from "../../common";
 import {marked} from 'marked';
+import { GetServerSideProps, NextPage } from "next";
+import { PostData } from "../../@types";
 
-const PostDetailPage = ({postData}) => {
+interface PostDetailPageProps {
+  postData: PostData
+}
+
+const PostDetailPage: NextPage<PostDetailPageProps> = ({postData}) => {
   const {id, title, content} = postData;
 
   return (
@@ -12,7 +18,7 @@ const PostDetailPage = ({postData}) => {
   )
 }
 
-export const getServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const {postId} = context.query;
   const response = await fetch(`${API_HOST}/posts?postId=${postId}`);
   const postData = await response.json();

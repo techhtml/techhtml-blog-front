@@ -1,23 +1,24 @@
-import { useState } from "react";
+import { ChangeEventHandler, FormEventHandler, useState } from "react";
 import { API_HOST } from "../../common";
 import {useRouter} from 'next/router';
 import {marked} from 'marked';
 import styled from '@emotion/styled';
+import { NextPage } from "next";
 
-const PostAddPage = () => {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+const PostAddPage: NextPage = () => {
+  const [title, setTitle] = useState<string>('');
+  const [content, setContent] = useState<string>('');
   const router = useRouter();
   
-  const handleTitle = e => {
+  const handleTitle: ChangeEventHandler<HTMLInputElement> = e => {
     setTitle(e.target.value)
   }
 
-  const handleContent = e => {
+  const handleContent: ChangeEventHandler<HTMLTextAreaElement> = e => {
     setContent(e.target.value)
   }
 
-  const handleSubmit = async e => {
+  const handleSubmit: FormEventHandler = async e => {
     e.preventDefault();
 
     await fetch(`${API_HOST}/posts`, {
@@ -31,7 +32,7 @@ const PostAddPage = () => {
       })
     })
 
-    alert('게시글 작성 성공~');
+    alert('게시글 작성 성공');
     router.push('/posts')
   }
   
@@ -44,7 +45,11 @@ const PostAddPage = () => {
       <div>
         <label htmlFor="content">본문</label>
         <Container>
-          <textarea id="content" cols="30" rows="10" onChange={handleContent} defaultValue={content}></textarea>
+          <textarea id="content" 
+            cols={30}
+            rows={10}
+            onChange={handleContent}
+            defaultValue={content} />
           <div dangerouslySetInnerHTML={{__html: marked.parse(content)}} />
         </Container>
       </div>

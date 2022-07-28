@@ -1,14 +1,22 @@
-import { useState } from 'react';
+import { ChangeEventHandler, FormEventHandler, useState } from 'react';
 import {API_HOST} from '../../common';
+import { NextPage } from 'next';
 
-export default function MessagePage ({ data }) {
+interface MessageData {
+  message: string;
+}
+interface MessagePageProps {
+  data: MessageData[]
+}
+
+const MessagePage: NextPage<MessagePageProps> = ({ data }) => {
   const [message, setMessage] = useState('');
 
-  const handleMessageInput = (e) => {
+  const handleMessageInput: ChangeEventHandler<HTMLInputElement> = (e) => {
     setMessage(e.target.value);
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault();
     fetch(`${API_HOST}/message?message=${message}`, {
       method: 'POST'
@@ -24,12 +32,14 @@ export default function MessagePage ({ data }) {
         )
       })}
       <form onSubmit={handleSubmit}>
-        <input type="text" value={message} onChange={handleMessageInput} />
+        <input type="text" value={message} onChange={handleMessageInput} title="메시지 작성하기" />
         <input type="submit" />
       </form>
     </div>
   )
 }
+
+export default MessagePage
 
 export async function getServerSideProps () {
   const res = await fetch(`${API_HOST}/message`, {method: 'GET'})

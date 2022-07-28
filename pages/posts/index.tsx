@@ -1,7 +1,13 @@
 import { API_HOST } from "../../common";
 import Link from 'next/link';
+import { NextPage } from 'next';
+import { PostData } from "../../@types";
 
-const PostListPage = ({ postListData }) => {
+interface PostListPageProps {
+  postListData: PostData[];
+}
+
+const PostListPage: NextPage<PostListPageProps> = ({ postListData }) => {
   return (
     <main>
       <h1>Techhtml Blog</h1>
@@ -16,7 +22,8 @@ const PostListPage = ({ postListData }) => {
                     <li key={postData.id}>
                       <Link href={`/posts/${postData.id}`}>
                         <a>
-                          {postData.title}
+                          <h2>{postData.title}</h2>
+                          <p>{postData.content}</p>
                         </a>
                       </Link>
                     </li>
